@@ -1,0 +1,7 @@
+message Ping {
+  required string message = 1;
+}
+
+service PingService {
+  rpc ReplyToPing (Ping) returns (Ping);
+}
