@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -c -g -pedantic -Wall
-CFLAGS += $(shell pkg-config libprotobuf-c --cflags)
-LDFLAGS += $(shell pkg-config libprotobuf-c --libs)
+CFLAGS += $(shell pkg-config libprotobuf-c libprotobuf-c-rpc --cflags)
+LDFLAGS += $(shell pkg-config libprotobuf-c libprotobuf-c-rpc --libs)
 
 SERVER_EXEC = server
 CLIENT_EXEC = client
@@ -26,13 +26,13 @@ ${CLIENT_EXEC}: ${CLIENT_OBJS}
 ping: ping.pb-c.c
 
 ping.pb-c.c:
-	protoc-c --c_out . ping.proto
+	protoc --c_out . ping.proto
 
 test_server: ${SERVER_EXEC}
-	./${SERVER_EXEC} --port=8080
+	./${SERVER_EXEC} --port=8081
 
 test_client: ${CLIENT_EXEC}
-	./${CLIENT_EXEC} --tcp=localhost:8080
+	./${CLIENT_EXEC} --tcp=localhost:8081
 
 clean:
 	rm -rf ${SERVER_EXEC} ${CLIENT_EXEC}
